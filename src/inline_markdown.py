@@ -106,9 +106,9 @@ def text_to_textnode(text):
         for node in node_list:
             if node.text_type == TextType.TEXT:
                 split_result = split_nodes_delimiter([node], delimiter, text_type)
-                print(f"Text: {node.text}, Delimiter: {delimiter}")
+                # print(f"Text: {node.text}, Delimiter: {delimiter}")
                 new_node_list.extend(split_result)
-                print(f"Split result: {split_result}\n")
+                # print(f"Split result: {split_result}\n")
             else:
                 new_node_list.append(node)
             node_list = new_node_list
