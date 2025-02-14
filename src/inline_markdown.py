@@ -1,6 +1,6 @@
 import re
 
-from textnode import TextNode, TextType
+from textnode import *
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
