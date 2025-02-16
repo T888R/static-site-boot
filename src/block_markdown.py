@@ -9,7 +9,6 @@ block_type_quote = "quote"
 block_type_olist = "ordered_list"
 block_type_ulist = "unordered_list"
 
-
 def markdown_to_blocks(markdown):
     blocks = markdown.split("\n\n")
     filtered_blocks = []
@@ -19,7 +18,6 @@ def markdown_to_blocks(markdown):
         block = block.strip()
         filtered_blocks.append(block)
     return filtered_blocks
-
 
 def block_to_block_type(block):
     lines = block.split("\n")
@@ -80,7 +78,6 @@ def markdown_to_html_node(markdown):
         html_node = block_to_html_node(block)
         node_list.append(html_node)
     return ParentNode("div", node_list, None)
-
 
 def text_to_children(text):
     text_nodes = text_to_textnode(text)
@@ -145,3 +142,16 @@ def quote_to_html_node(block):
     content = " ".join(new_lines)
     children = text_to_children(content)
     return ParentNode("blockquote", children)
+
+def extract_title(markdown):
+    found_hash = False
+    blocks = markdown_to_blocks(markdown)
+    for block in blocks:
+        if block.startswith("#") is True:
+            found_hash = True
+            removed_hash = block.strip("#")
+            removed_white = removed_hash.strip()
+            # print(removed_white)
+            return removed_white
+    if found_hash is False:
+        raise Exception("Found no H1 header")
