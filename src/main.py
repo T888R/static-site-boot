@@ -43,16 +43,28 @@ def generate_page(from_path, template_path, dest_path):
         dest_file = open(public_file, "w")
         dest_file.write(title_replaced)
         dest_file.close()
-        with open(os.path.join(dest_path, "index.html"), "w") as file:
-            file.write(title_replaced)
-        print("Destination file written")
-        print(os.path.join(dest_path, "index.html"))
+        # with open(os.path.join(dest_path, "index.html"), "w") as file:
+        #     file.write(title_replaced)
+        # print("Destination file written")
+        print("File written at " + os.path.join(dest_path, "index.html"))
 
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    files = os.listdir(dir_path_content)
+    for file in files:
+        print(file)
+        file_path = os.path.join(dir_path_content, file)
+        if os.path.isfile(file_path) == True:
+            # print(f"Found file at {file}")
+            generate_page(file_path, template_path, dest_dir_path)
+        else:
+            os.makedirs(os.path.join(dest_dir_path, file))
+            generate_pages_recursive(file_path, template_path, os.path.join(dest_dir_path, file))
 
 def main():
     current_dir = os.getcwd()
     static_dir = os.path.join(current_dir, "static")
     public_dir = os.path.join(current_dir, "public")
+    content_dir = os.path.join(current_dir, "content")
 
     copy_directory(static_dir, public_dir)
 
@@ -60,8 +72,8 @@ def main():
     template_file = os.path.join(current_dir, "template.html")
     public_file = os.path.join(public_dir, "index.html")
 
-    # generate_page(from_file, template_file, public_file)
-    generate_page(from_file, template_file, public_dir)
+    # generate_page(from_file, template_file, public_dir)
+    generate_pages_recursive(content_dir, template_file, public_dir)
 
 if __name__ == "__main__":
     main()
